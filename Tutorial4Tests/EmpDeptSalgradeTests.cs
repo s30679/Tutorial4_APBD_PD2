@@ -106,13 +106,11 @@ public class EmpDeptSalgradeTests
         var emps = Database.GetEmps();
         var grades = Database.GetSalgrades();
         
-        //Nie mam pomysłu jak to poprawić oraz nie udało mi się poprawnie napisać używając method synthax
-        //var result = from e in emps
-            //join s in grades on e.Sal 
-            //where e.Sal>=s.Losal && e.Sal<=s.Hisal
-            //select new {e.EName,s.Grade};
+        //Nie wiem jak zrobić z użyciem joina
+        var result = emps.SelectMany(e => grades.Where(s => e.Sal>=s.Losal && e.Sal<=s.Hisal)
+                .Select(s => new { e.EName, s.Grade }), (e, s) => new { e.EName, s.Grade });
         
-        //Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
+        Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
     }
 
     // 9. Aggregation (AVG)
